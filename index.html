@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Який ти мем? — тест</title>
+<title>Який ти мем? - тест</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@600;700;900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -96,7 +96,7 @@
       <div class="panel">
         <span class="eyebrow">Тест · 11 питань</span>
         <h1>Який ти мем?</h1>
-        <p class="lead">Дізнайся, який із 31 мема — це сьогодні ти. В кінці — твій результат і статистика по всіх мемах.</p>
+        <p class="lead">Дізнайся, який із 31 мема - це сьогодні ти. В кінці - твій результат і статистика по всіх мемах.</p>
         <button class="btn btn-primary" id="startBtn">Почати тест →</button>
       </div>
       <p class="foot">31 мем · 31 можливий результат</p>
@@ -145,82 +145,82 @@
 <script>
 /* ============================================================
    1) МЕМИ
-   img — шлях до картинки в репозиторії. Поклади 31 файл у папку
-   images/ з назвами як у полі img (напр. images/burn_work.jpg).
-   Поки файлу нема — показується емодзі (запасний варіант).
+   img - шлях до картинки в репозиторії. Поклади 31 файл у папку
+   images/ з назвами як у полі img (напр. images/IMG_0361.jpeg).
+   Поки файлу нема - показується емодзі (запасний варіант).
    ============================================================ */
 const MEMES = [
-  { id:"burn_work", emoji:"🔨", color:"#FF5470", img:"images/burn_work.jpg",
-    name:"«Спалю цю роботу»", desc:"Терпець луснув — хочеться все рознести молотком, поки воно горить. Втома й лють перемкнули тебе в режим хаосу." },
-  { id:"bite_laptop", emoji:"⌨️", color:"#FF7A45", img:"images/bite_laptop.jpg",
-    name:"«Зʼїм цю техніку»", desc:"Баги, лаги, дедлайни — і ти готовий(а) вкусити ноутбук. Гаджети тебе сьогодні офіційно перемогли." },
-  { id:"go_flow_sea", emoji:"🌊", color:"#2DA8E0", img:"images/go_flow_sea.jpg",
-    name:"«Пливу за течією»", desc:"Контроль? Не чули. Що буде — те й буде, а ти просто розслабився(лась) і довіряєш потоку." },
-  { id:"goldfish", emoji:"🐠", color:"#FFB23E", img:"images/goldfish.jpg",
-    name:"«Памʼятаю, аякже»", desc:"Памʼять як у золотої рибки, але впевненість — як у профі. Що там треба було? А, неважливо." },
-  { id:"nervous_dog", emoji:"😰", color:"#6B7280", img:"images/nervous_dog.jpg",
-    name:"«Усі системи нервові»", desc:"Тривога — твоє паливо. Ти тримаєшся, але всі внутрішні системи давно на межі." },
-  { id:"crying_kid", emoji:"😭", color:"#4F8DF0", img:"images/crying_kid.jpg",
+  { id:"burn_work", emoji:"🔨", color:"#FF5470", img:"images/IMG_0361.jpeg",
+    name:"«Спалю цю роботу»", desc:"Терпець луснув - хочеться все рознести молотком, поки воно горить. Втома й лють перемкнули тебе в режим хаосу." },
+  { id:"bite_laptop", emoji:"⌨️", color:"#FF7A45", img:"images/IMG_0344.jpeg",
+    name:"«Зʼїм цю техніку»", desc:"Баги, лаги, дедлайни - і ти готовий(а) вкусити ноутбук. Гаджети тебе сьогодні офіційно перемогли." },
+  { id:"go_flow_sea", emoji:"🌊", color:"#2DA8E0", img:"images/IMG_0353.jpeg",
+    name:"«Пливу за течією»", desc:"Контроль? Не чули. Що буде - те й буде, а ти просто розслабився(лась) і довіряєш потоку." },
+  { id:"goldfish", emoji:"🐠", color:"#FFB23E", img:"images/IMG_0359.jpeg",
+    name:"«Памʼятаю, аякже»", desc:"Памʼять як у золотої рибки, але впевненість - як у профі. Що там треба було? А, неважливо." },
+  { id:"nervous_dog", emoji:"😰", color:"#6B7280", img:"images/IMG_0354.jpeg",
+    name:"«Усі системи нервові»", desc:"Тривога - твоє паливо. Ти тримаєшся, але всі внутрішні системи давно на межі." },
+  { id:"crying_kid", emoji:"😭", color:"#4F8DF0", img:"images/IMG_0337.jpeg",
     name:"«Все, я плачу»", desc:"Емоції через край і завжди напоготові. Маленький драматичний шторм у людському тілі." },
-  { id:"math_lady", emoji:"🧮", color:"#C026D3", img:"images/math_lady.jpg",
-    name:"«Гарячкові обчислення»", desc:"Мозок рахує все наперед, аж перегрівається. Просте питання — а в голові вже три формули й діаграма." },
-  { id:"nature_caterpillar", emoji:"🐛", color:"#34C759", img:"images/nature_caterpillar.jpg",
+  { id:"math_lady", emoji:"🧮", color:"#C026D3", img:"images/IMG_0342.jpeg",
+    name:"«Гарячкові обчислення»", desc:"Мозок рахує все наперед, аж перегрівається. Просте питання - а в голові вже три формули й діаграма." },
+  { id:"nature_caterpillar", emoji:"🐛", color:"#34C759", img:"images/IMG_0356.jpeg",
     name:"«Природа прекрасна»", desc:"Бачиш красу в найдрібнішому. Мила, добра, трохи наївна душа, що радіє листочкам і гусеничкам." },
-  { id:"self_care", emoji:"🤍", color:"#F472B6", img:"images/self_care.jpg",
+  { id:"self_care", emoji:"🤍", color:"#F472B6", img:"images/IMG_0345.jpeg",
     name:"«Підтримую себе сам»", desc:"Сам собі найкращий друг і терапевт. Дбаєш про внутрішнього себе ніжно й без поспіху." },
-  { id:"sunset_dog", emoji:"🌅", color:"#E07A3F", img:"images/sunset_dog.jpg",
-    name:"«У роздумах про вічне»", desc:"Незворушний мислитель на заході сонця. Дивишся вдалечінь і відчуваєш, що ти — головний герой свого фільму." },
-  { id:"overthink_shark", emoji:"🦈", color:"#5B5FEF", img:"images/overthink_shark.jpg",
-    name:"«Я це переосмислив»", desc:"Думаєш 24/7 і перемудровуєш усе на світі. Одна фраза — і ти вже прокрутив(ла) її сто разів." },
-  { id:"roll_safe", emoji:"🤙", color:"#FFC93C", img:"images/roll_safe.jpg",
-    name:"«Хитрий розум»", desc:"На кожну ситуацію — свій лайфхак. Самовпевнена логіка, яка майже завжди здається геніальною." },
-  { id:"fruit_glutton", emoji:"🍉", color:"#E63950", img:"images/fruit_glutton.jpg",
-    name:"«Дорвався до фруктів»", desc:"Сезон стартував — і ти накупив(ла) цілу гору фруктів. Наївся(лася) вже від душі, але спинитися не можеш: ще шматочок кавуна, ну і ще один." },
-  { id:"conspiracy", emoji:"🕵️", color:"#8B5CF6", img:"images/conspiracy.jpg",
+  { id:"sunset_dog", emoji:"🌅", color:"#E07A3F", img:"images/IMG_0338.jpeg",
+    name:"«У роздумах про вічне»", desc:"Незворушний мислитель на заході сонця. Дивишся вдалечінь і відчуваєш, що ти - головний герой свого фільму." },
+  { id:"overthink_shark", emoji:"🦈", color:"#5B5FEF", img:"images/IMG_0357.jpeg",
+    name:"«Я це переосмислив»", desc:"Думаєш 24/7 і перемудровуєш усе на світі. Одна фраза - і ти вже прокрутив(ла) її сто разів." },
+  { id:"roll_safe", emoji:"🤙", color:"#FFC93C", img:"images/IMG_0349.jpeg",
+    name:"«Хитрий розум»", desc:"На кожну ситуацію - свій лайфхак. Самовпевнена логіка, яка майже завжди здається геніальною." },
+  { id:"fruit_glutton", emoji:"🍉", color:"#E63950", img:"images/IMG_0400.JPG",
+    name:"«Дорвався до фруктів»", desc:"Сезон стартував - і ти накупив(ла) цілу гору фруктів. Наївся(лася) вже від душі, але спинитися не можеш: ще шматочок кавуна, ну і ще один." },
+  { id:"conspiracy", emoji:"🕵️", color:"#8B5CF6", img:"images/IMG_0341.jpeg",
     name:"«Все повʼязано!»", desc:"Бачиш звʼязки там, де їх не бачить ніхто. Стіна з ниток, теорії, режим детектива на повну." },
-  { id:"hackerman", emoji:"💻", color:"#22C55E", img:"images/hackerman.jpg",
+  { id:"hackerman", emoji:"💻", color:"#22C55E", img:"images/IMG_0340.jpeg",
     name:"«Я в системі»", desc:"Технічний геній (на словах). Тицяєш кнопки впевнено, ніби зараз зламаєш весь інтернет." },
-  { id:"money_sign", emoji:"💰", color:"#16A34A", img:"images/money_sign.jpg",
-    name:"«Курс на гроші»", desc:"Бачиш ціль — ідеш до неї. Амбіції, фокус і чіткий вектор на результат." },
-  { id:"degree_hamster", emoji:"🐹", color:"#A78BFA", img:"images/degree_hamster.jpg",
-    name:"«Здобудемо цей диплом»", desc:"Втомлений(а), але впертий(а). Тримаєшся на каві й силі волі — і таки дійдеш до мети." },
-  { id:"ironic_leo", emoji:"🥃", color:"#B45309", img:"images/ironic_leo.jpg",
+  { id:"money_sign", emoji:"💰", color:"#16A34A", img:"images/IMG_0355.jpeg",
+    name:"«Курс на гроші»", desc:"Бачиш ціль - ідеш до неї. Амбіції, фокус і чіткий вектор на результат." },
+  { id:"degree_hamster", emoji:"🐹", color:"#A78BFA", img:"images/IMG_0360.jpeg",
+    name:"«Здобудемо цей диплом»", desc:"Втомлений(а), але впертий(а). Тримаєшся на каві й силі волі - і таки дійдеш до мети." },
+  { id:"ironic_leo", emoji:"🥃", color:"#B45309", img:"images/IMG_0352.jpeg",
     name:"«Іронічний Лео»", desc:"Спостерігаєш за абсурдом світу з келихом і легкою усмішкою. Тебе все це радше тішить, ніж дратує." },
-  { id:"thats_me_leo", emoji:"🙌", color:"#F59E0B", img:"images/thats_me_leo.jpg",
+  { id:"thats_me_leo", emoji:"🙌", color:"#F59E0B", img:"images/IMG_0348.jpeg",
     name:"«О, це ж я!»", desc:"Щире, радісне впізнавання себе у всьому. Ентузіазм через край і палець, спрямований в екран." },
-  { id:"confident_comb", emoji:"💇", color:"#38BDF8", img:"images/confident_comb.jpg",
-    name:"«Все під контролем»", desc:"Робиш геть безглузде з абсолютною впевненістю. Самоіронія — твоя суперсила." },
-  { id:"mischief_glasses", emoji:"😏", color:"#FB7185", img:"images/mischief_glasses.jpg",
+  { id:"confident_comb", emoji:"💇", color:"#38BDF8", img:"images/IMG_0343.jpeg",
+    name:"«Все під контролем»", desc:"Робиш геть безглузде з абсолютною впевненістю. Самоіронія - твоя суперсила." },
+  { id:"mischief_glasses", emoji:"😏", color:"#FB7185", img:"images/IMG_0351.jpeg",
     name:"«Маленький бешкетник»", desc:"Завжди щось замислив(ла). Пустотлива енергія й погляд людини, яка собі на умі." },
-  { id:"confused_paper", emoji:"😵‍💫", color:"#EF4444", img:"images/confused_paper.jpg",
-    name:"«Що це взагалі таке?»", desc:"Нічого не розумієш — і тебе це вже бісить. Мружишся на світ із праведним обуренням." },
-  { id:"skeptical_kid", emoji:"👀", color:"#F97316", img:"images/skeptical_kid.jpg",
+  { id:"confused_paper", emoji:"😵‍💫", color:"#EF4444", img:"images/IMG_0350.jpeg",
+    name:"«Що це взагалі таке?»", desc:"Нічого не розумієш - і тебе це вже бісить. Мружишся на світ із праведним обуренням." },
+  { id:"skeptical_kid", emoji:"👀", color:"#F97316", img:"images/IMG_0339.jpeg",
     name:"«Щось не сходиться»", desc:"Скептик до кісток. Дивишся скоса й чекаєш, у чому підступ." },
-  { id:"suspicious_aunt", emoji:"🧐", color:"#DC2626", img:"images/suspicious_aunt.jpg",
-    name:"«Ой, не вірю»", desc:"Осуд і недовіра по-нашому. Один погляд — і людині вже соромно, хоч вона й не знає за що." },
-  { id:"sho", emoji:"❓", color:"#14B8A6", img:"images/sho.jpg",
-    name:"«ШО? ШО-ШО?»", desc:"«Га? Повтори?» Мила нерозуміючка, яка щиро не вловила сенс — але дуже старається." },
-  { id:"spidermen", emoji:"🕸️", color:"#DB2777", img:"images/spidermen.jpg",
+  { id:"suspicious_aunt", emoji:"🧐", color:"#DC2626", img:"images/IMG_0334.jpeg",
+    name:"«Ой, не вірю»", desc:"Осуд і недовіра по-нашому. Один погляд - і людині вже соромно, хоч вона й не знає за що." },
+  { id:"sho", emoji:"❓", color:"#14B8A6", img:"images/IMG_0332.jpeg",
+    name:"«ШО? ШО-ШО?»", desc:"«Га? Повтори?» Мила нерозуміючка, яка щиро не вловила сенс - але дуже старається." },
+  { id:"spidermen", emoji:"🕸️", color:"#DB2777", img:"images/IMG_0346.jpeg",
     name:"«Хто винен?»", desc:"Суцільна плутанина, де всі однакові й кожен показує пальцем на іншого. Відповідальність? Не сьогодні." },
-  { id:"insane_cat", emoji:"🚗", color:"#EC4899", img:"images/insane_cat.jpg",
-    name:"«Не питай, куди я їду»", desc:"Стильно зʼїжджаєш з глузду. Куди по життю — невідомо, але їдеш упевнено й з шиком." },
-  { id:"kukukha", emoji:"🚃", color:"#64748B", img:"images/kukukha.jpg",
+  { id:"insane_cat", emoji:"🚗", color:"#EC4899", img:"images/IMG_0358.jpeg",
+    name:"«Не питай, куди я їду»", desc:"Стильно зʼїжджаєш з глузду. Куди по життю - невідомо, але їдеш упевнено й з шиком." },
+  { id:"kukukha", emoji:"🚃", color:"#64748B", img:"images/IMG_0333.jpeg",
     name:"«Кукуха їде»", desc:"Глузд потихеньку покидає вагон, але ти все одно рухаєшся вперед. Хаос, та контрольований." },
-  { id:"marmot", emoji:"📣", color:"#F43F5E", img:"images/marmot.jpg",
-    name:"«ААА!»", desc:"Голосна драматична реакція на будь-що. Емоції назовні, гучність — на максимум." },
-  { id:"calm_fist", emoji:"✊", color:"#1F2937", img:"images/calm_fist.jpg",
+  { id:"marmot", emoji:"📣", color:"#F43F5E", img:"images/IMG_0331.jpeg",
+    name:"«ААА!»", desc:"Голосна драматична реакція на будь-що. Емоції назовні, гучність - на максимум." },
+  { id:"calm_fist", emoji:"✊", color:"#1F2937", img:"images/IMG_0347.jpeg",
     name:"«Спокій і кулак»", desc:"Ззовні незворушний(а), а проблеми вирішуєш рішуче й по суті. Тиха сила без зайвих слів." },
-  { id:"troll_grass", emoji:"🌱", color:"#65A30D", img:"images/troll_grass.jpg",
+  { id:"troll_grass", emoji:"🌱", color:"#65A30D", img:"images/IMG_0335.jpeg",
     name:"«Моє улюблене заняття»", desc:"Іронічний тролик, вічно онлайн. Доторкнутися до трави? Хіба щоб одразу поіронізувати з цього." },
 ];
 
 /* ============================================================
-   2) ПИТАННЯ — кожна відповідь дає бали різним мемам.
-      Перемагає мем із найбільшою сумою (нічию — випадково).
+   2) ПИТАННЯ - кожна відповідь дає бали різним мемам.
+      Перемагає мем із найбільшою сумою (нічию - випадково).
    ============================================================ */
 const QUESTIONS = [
   { q:"У неділю ввечері ти зазвичай почуваєшся…", options:[
-    { emo:"🌊", label:"Спокій — що буде, те й буде", scores:{go_flow_sea:2,sunset_dog:1,goldfish:1} },
+    { emo:"🌊", label:"Спокій - що буде, те й буде", scores:{go_flow_sea:2,sunset_dog:1,goldfish:1} },
     { emo:"😰", label:"Тривога: завтра ж понеділок", scores:{nervous_dog:2,crying_kid:1,math_lady:1} },
     { emo:"🔨", label:"Лють: знову той самий гон", scores:{burn_work:2,bite_laptop:2} },
     { emo:"📈", label:"Будую плани, як підкорити тиждень", scores:{money_sign:2,degree_hamster:2,roll_safe:1} },
@@ -233,7 +233,7 @@ const QUESTIONS = [
   ]},
   { q:"Друзі кличуть на нічну авантюру. Ти?", options:[
     { emo:"🚗", label:"Поїхали! Не питай, куди", scores:{insane_cat:2,kukukha:2} },
-    { emo:"😏", label:"Я в ділі — я ж тут по хаосу", scores:{mischief_glasses:2,troll_grass:1} },
+    { emo:"😏", label:"Я в ділі - я ж тут по хаосу", scores:{mischief_glasses:2,troll_grass:1} },
     { emo:"☕", label:"Краще вдома, з чаєм і книжкою", scores:{self_care:2,nature_caterpillar:1} },
     { emo:"🍉", label:"Поїхали, але тільки якщо там буде смачна їжа", scores:{fruit_glutton:2,go_flow_sea:1} },
   ]},
@@ -245,8 +245,8 @@ const QUESTIONS = [
   ]},
   { q:"Бачиш чужу дурню в інтернеті. Що робиш?", options:[
     { emo:"🥃", label:"Іронічно спостерігаю й насолоджуюсь", scores:{ironic_leo:2,mischief_glasses:2} },
-    { emo:"🌱", label:"Лізу в комменти — моє улюблене заняття", scores:{troll_grass:2} },
-    { emo:"😵‍💫", label:"«Що це взагалі таке?!» — не розумію й бісить", scores:{confused_paper:2,suspicious_aunt:2} },
+    { emo:"🌱", label:"Лізу в комменти - моє улюблене заняття", scores:{troll_grass:2} },
+    { emo:"😵‍💫", label:"«Що це взагалі таке?!» - не розумію й бісить", scores:{confused_paper:2,suspicious_aunt:2} },
     { emo:"👀", label:"Підозріло мружусь: щось тут не так", scores:{skeptical_kid:2,suspicious_aunt:1} },
   ]},
   { q:"Твоє ставлення до навчання / роботи?", options:[
@@ -258,13 +258,13 @@ const QUESTIONS = [
   { q:"Як ти ухвалюєш рішення?", options:[
     { emo:"🕵️", label:"Малюю схему звʼязків, як детектив", scores:{conspiracy:2,overthink_shark:1} },
     { emo:"🧮", label:"Рахую все в голові до перегріву", scores:{math_lady:2} },
-    { emo:"🍉", label:"Слухаю шлунок — він підкаже", scores:{fruit_glutton:2,mischief_glasses:1} },
+    { emo:"🍉", label:"Слухаю шлунок - він підкаже", scores:{fruit_glutton:2,mischief_glasses:1} },
     { emo:"🕸️", label:"А хто взагалі винен у цьому виборі?", scores:{spidermen:2,sho:2} },
   ]},
   { q:"Тебе щиро похвалили. Реакція?", options:[
-    { emo:"🙌", label:"«О, це ж я!» — аж підскочив", scores:{thats_me_leo:2} },
+    { emo:"🙌", label:"«О, це ж я!» - аж підскочив", scores:{thats_me_leo:2} },
     { emo:"👀", label:"Скептично: а в чому підступ?", scores:{skeptical_kid:2,suspicious_aunt:2} },
-    { emo:"✊", label:"Спокійно киваю — я й так знав", scores:{calm_fist:2,confident_comb:2} },
+    { emo:"✊", label:"Спокійно киваю - я й так знав", scores:{calm_fist:2,confident_comb:2} },
     { emo:"📣", label:"Драматично радію на весь голос", scores:{marmot:2,thats_me_leo:1} },
   ]},
   { q:"Обери свою суперсилу.", options:[
@@ -273,7 +273,7 @@ const QUESTIONS = [
     { emo:"🔍", label:"Бачити суть і звʼязки всюди", scores:{conspiracy:2,overthink_shark:1} },
     { emo:"🐈", label:"Робити з усього легкий хаос", scores:{insane_cat:2,kukukha:1,mischief_glasses:1} },
   ]},
-  { q:"Твоя стихія — це…", options:[
+  { q:"Твоя стихія - це…", options:[
     { emo:"💰", label:"Гроші й чіткі цілі", scores:{money_sign:2,roll_safe:2} },
     { emo:"💻", label:"Технології (я ж типу хакер)", scores:{hackerman:2,confident_comb:1} },
     { emo:"🦋", label:"Краса, природа, спокій", scores:{nature_caterpillar:2,self_care:1} },
@@ -295,7 +295,7 @@ const memeById = id => MEMES.find(m => m.id === id);
 let current = 0, answers = [], shownWinner = null;
 
 /* Теоретичний розподіл (запасний варіант + рідкісність).
-   Детермінований ГВЧ — стабільні числа, але оновлюються,
+   Детермінований ГВЧ - стабільні числа, але оновлюються,
    якщо ти зміниш питання чи бали. */
 function mulberry32(a){return function(){a|=0;a=a+0x6D2B79F5|0;let t=Math.imul(a^a>>>15,1|a);t=t+Math.imul(t^t>>>7,61|t)^t;return ((t^t>>>14)>>>0)/4294967296;};}
 function computeDistribution(){
@@ -378,7 +378,7 @@ function renderResult(id){
   else face.textContent = m.emoji;
   $("#resultName").textContent = m.name;
   $("#resultDesc").textContent = m.desc;
-  // Рідкісність — за збалансованим (теоретичним) розподілом, щоб не стрибала.
+  // Рідкісність - за збалансованим (теоретичним) розподілом, щоб не стрибала.
   const t = DIST[id];
   $("#rarityBadge").textContent = t < 2.5 ? "🌟 Рідкісний" : (t < 4 ? "Незвичайний" : "Класика");
   paintPct(id);
@@ -391,7 +391,7 @@ function openStats(){
 
 function renderStats(){
   $("#statsHead").textContent = "Як часто випадає кожен мем";
-  $("#statsNote").textContent = "Розраховано на основі багатьох симуляцій випадкових проходжень — показує, наскільки збалансований тест і які меми рідкісні.";
+  $("#statsNote").textContent = "Розраховано на основі багатьох симуляцій випадкових проходжень - показує, наскільки збалансований тест і які меми рідкісні.";
   const rows = MEMES.map(m => ({ m, pct: statFor(m.id).pct })).sort((a, b) => b.pct - a.pct);
   const maxPct = Math.max(...rows.map(r => r.pct), 0.01);
   const box = $("#statsBox"); box.innerHTML = "";
@@ -409,10 +409,10 @@ function renderStats(){
 
 function shareResult(){
   const m = memeById(shownWinner);
-  const text = "Я пройшов(ла) тест і я — " + m.name + "! А ти який мем?";
+  const text = "Я пройшов(ла) тест і я - " + m.name + "! А ти який мем?";
   const url = location.href;
   if (navigator.share){ navigator.share({ title: "Який ти мем?", text, url }).catch(() => {}); }
-  else { navigator.clipboard.writeText(text + " " + url).then(() => toast("Скопійовано — можна вставляти!")).catch(() => toast(text)); }
+  else { navigator.clipboard.writeText(text + " " + url).then(() => toast("Скопійовано - можна вставляти!")).catch(() => toast(text)); }
 }
 
 let toastTimer;
