@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Який ти мем? — тест</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@600;700;900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#1A1726; --paper:#F1EEFA; --card:#FFFFFF;
+    --coral:#FF5470; --indigo:#5B5FEF; --yellow:#FFC93C; --mint:#2DD4A7;
+    --shadow:6px 6px 0 var(--ink); --shadow-sm:4px 4px 0 var(--ink); --radius:22px;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{
+    font-family:'Inter',system-ui,sans-serif;color:var(--ink);background:var(--paper);
+    min-height:100dvh;display:flex;align-items:flex-start;justify-content:center;
+    padding:24px 16px 64px;overflow-x:hidden;position:relative;
+  }
+  .blob{position:fixed;border-radius:50%;filter:blur(38px);opacity:.45;z-index:-1;animation:float 9s ease-in-out infinite;}
+  .blob.b1{width:240px;height:240px;background:var(--coral);top:-60px;left:-70px;}
+  .blob.b2{width:200px;height:200px;background:var(--indigo);bottom:-50px;right:-60px;animation-delay:-3s;}
+  .blob.b3{width:160px;height:160px;background:var(--yellow);top:40%;right:-50px;animation-delay:-5s;}
+  @keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-22px)}}
+
+  .stage{width:100%;max-width:600px;}
+  .screen{display:none;animation:fadeUp .4s ease both;}
+  .screen.active{display:block;}
+  @keyframes fadeUp{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+
+  .panel{background:var(--card);border:3px solid var(--ink);border-radius:var(--radius);box-shadow:var(--shadow);padding:28px 24px;}
+
+  .eyebrow{display:inline-block;font-weight:700;font-size:.78rem;letter-spacing:.12em;text-transform:uppercase;background:var(--yellow);border:2px solid var(--ink);border-radius:999px;padding:6px 14px;margin-bottom:18px;}
+  h1{font-family:'Unbounded',sans-serif;font-weight:900;line-height:1.02;font-size:clamp(2.1rem,8vw,3.4rem);margin-bottom:14px;letter-spacing:-.01em;}
+  .lead{font-size:1.05rem;line-height:1.55;color:#3b3650;margin-bottom:26px;max-width:46ch;}
+
+  .btn{font-family:'Inter',sans-serif;font-weight:700;font-size:1rem;border:3px solid var(--ink);border-radius:16px;cursor:pointer;padding:15px 22px;background:var(--card);color:var(--ink);box-shadow:var(--shadow-sm);transition:transform .12s ease,box-shadow .12s ease;-webkit-tap-highlight-color:transparent;}
+  .btn:hover{transform:translate(2px,2px);box-shadow:2px 2px 0 var(--ink);}
+  .btn:active{transform:translate(4px,4px);box-shadow:none;}
+  .btn:focus-visible{outline:3px solid var(--indigo);outline-offset:3px;}
+  .btn-primary{background:var(--coral);color:#fff;font-size:1.1rem;width:100%;}
+  .btn-row{display:flex;flex-wrap:wrap;gap:12px;margin-top:24px;}
+  .btn-row .btn{flex:1 1 auto;}
+
+  .quiz-top{display:flex;align-items:center;gap:12px;margin-bottom:18px;}
+  .iconbtn{width:42px;height:42px;flex:none;border:3px solid var(--ink);border-radius:12px;background:#fff;font-size:1.2rem;cursor:pointer;box-shadow:var(--shadow-sm);transition:transform .12s ease,box-shadow .12s ease;line-height:1;}
+  .iconbtn:hover{transform:translate(2px,2px);box-shadow:2px 2px 0 var(--ink);}
+  .iconbtn:focus-visible{outline:3px solid var(--indigo);outline-offset:3px;}
+  .iconbtn[hidden]{visibility:hidden;}
+  .counter{font-weight:700;font-size:.9rem;white-space:nowrap;}
+  .bar{flex:1;height:14px;border:3px solid var(--ink);border-radius:999px;background:#fff;overflow:hidden;}
+  .bar-fill{height:100%;width:0;background:var(--indigo);border-radius:999px;transition:width .35s ease;}
+
+  .question{font-family:'Unbounded',sans-serif;font-weight:700;font-size:1.35rem;line-height:1.2;margin:6px 4px 22px;}
+  .options{display:grid;gap:12px;}
+  .option{text-align:left;font-size:1.02rem;font-weight:600;line-height:1.4;border:3px solid var(--ink);border-radius:16px;background:#fff;color:var(--ink);padding:16px 18px;cursor:pointer;box-shadow:var(--shadow-sm);transition:transform .12s ease,box-shadow .12s ease,background .12s ease;display:flex;gap:12px;align-items:center;-webkit-tap-highlight-color:transparent;}
+  .option .emo{font-size:1.5rem;flex:none;}
+  .option:hover{transform:translate(2px,2px);box-shadow:2px 2px 0 var(--ink);background:#FBFAFF;}
+  .option:active{transform:translate(4px,4px);box-shadow:none;}
+  .option:focus-visible{outline:3px solid var(--indigo);outline-offset:3px;}
+
+  .result-card{text-align:center;position:relative;overflow:hidden;animation:pop .5s cubic-bezier(.2,1.2,.4,1) both;}
+  @keyframes pop{0%{opacity:0;transform:scale(.8) rotate(-3deg)}100%{opacity:1;transform:none}}
+  .rarity{position:absolute;top:14px;right:14px;transform:rotate(8deg);font-weight:800;font-size:.8rem;letter-spacing:.04em;border:2px solid var(--ink);border-radius:10px;padding:6px 10px;background:var(--yellow);}
+  .face{width:150px;height:150px;margin:8px auto 18px;border:3px solid var(--ink);border-radius:24px;display:flex;align-items:center;justify-content:center;font-size:4.4rem;background:#fff;box-shadow:var(--shadow-sm);overflow:hidden;}
+  .face img{width:100%;height:100%;object-fit:cover;}
+  .result-kicker{font-weight:700;text-transform:uppercase;letter-spacing:.12em;font-size:.78rem;color:var(--indigo);margin-bottom:6px;}
+  .result-name{font-family:'Unbounded',sans-serif;font-weight:900;font-size:1.9rem;line-height:1.05;margin-bottom:14px;}
+  .result-desc{font-size:1.05rem;line-height:1.55;color:#3b3650;max-width:44ch;margin:0 auto;}
+  .pct-line{margin-top:18px;font-weight:700;min-height:1.4em;}
+  .pct-line b{color:var(--coral);}
+
+  .stats-head{margin-bottom:6px;font-family:'Unbounded',sans-serif;font-weight:800;font-size:1.5rem;}
+  .stats-note{color:#5a5470;font-size:.92rem;margin-bottom:22px;line-height:1.45;}
+  .stat-row{margin-bottom:14px;}
+  .stat-label{display:flex;justify-content:space-between;align-items:baseline;font-weight:700;margin-bottom:6px;font-size:.95rem;}
+  .stat-label .emo{margin-right:6px;}
+  .stat-label .v{font-variant-numeric:tabular-nums;}
+  .track{height:16px;border:3px solid var(--ink);border-radius:999px;background:#fff;overflow:hidden;}
+  .track > span{display:block;height:100%;border-radius:999px;width:0;transition:width .6s cubic-bezier(.2,.8,.3,1);}
+
+  .toast{position:fixed;left:50%;bottom:26px;transform:translateX(-50%) translateY(20px);background:var(--ink);color:#fff;font-weight:600;padding:12px 20px;border-radius:999px;opacity:0;pointer-events:none;transition:opacity .25s ease,transform .25s ease;z-index:50;}
+  .toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
+
+  .foot{text-align:center;margin-top:22px;font-size:.82rem;color:#6b6685;}
+  @media (prefers-reduced-motion: reduce){*{animation:none!important;transition:none!important;}}
+</style>
+</head>
+<body>
+  <div class="blob b1"></div><div class="blob b2"></div><div class="blob b3"></div>
+
+  <div class="stage">
+    <section id="screen-start" class="screen active">
+      <div class="panel">
+        <span class="eyebrow">Тест · 11 питань</span>
+        <h1>Який ти мем?</h1>
+        <p class="lead">Дізнайся, який із 31 мема — це сьогодні ти. В кінці — твій результат і статистика по всіх мемах.</p>
+        <button class="btn btn-primary" id="startBtn">Почати тест →</button>
+      </div>
+      <p class="foot">31 мем · 31 можливий результат</p>
+    </section>
+
+    <section id="screen-quiz" class="screen">
+      <div class="quiz-top">
+        <button class="iconbtn" id="backBtn" aria-label="Назад">←</button>
+        <span class="counter" id="counter">1 / 11</span>
+        <div class="bar"><div class="bar-fill" id="barFill"></div></div>
+      </div>
+      <div class="panel">
+        <p class="question" id="questionText"></p>
+        <div class="options" id="optionsBox"></div>
+      </div>
+    </section>
+
+    <section id="screen-result" class="screen">
+      <div class="panel result-card">
+        <span class="rarity" id="rarityBadge"></span>
+        <div class="face" id="resultFace"></div>
+        <p class="result-kicker">Твій мем</p>
+        <h2 class="result-name" id="resultName"></h2>
+        <p class="result-desc" id="resultDesc"></p>
+        <p class="pct-line" id="pctLine"></p>
+      </div>
+      <div class="btn-row">
+        <button class="btn" id="shareBtn">Поділитися</button>
+        <button class="btn" id="statsBtn">Усі меми</button>
+        <button class="btn" id="againBtn">Ще раз</button>
+      </div>
+    </section>
+
+    <section id="screen-stats" class="screen">
+      <div class="panel">
+        <h2 class="stats-head" id="statsHead">Статистика по мемах</h2>
+        <p class="stats-note" id="statsNote"></p>
+        <div id="statsBox"></div>
+      </div>
+      <div class="btn-row"><button class="btn btn-primary" id="restartFromStats">Пройти тест</button></div>
+    </section>
+  </div>
+
+  <div class="toast" id="toast"></div>
+
+<script>
+/* ============================================================
+   1) МЕМИ
+   img — шлях до картинки в репозиторії. Поклади 31 файл у папку
+   images/ з назвами як у полі img (напр. images/burn_work.jpg).
+   Поки файлу нема — показується емодзі (запасний варіант).
+   ============================================================ */
+const MEMES = [
+  { id:"burn_work", emoji:"🔨", color:"#FF5470", img:"images/burn_work.jpg",
+    name:"«Спалю цю роботу»", desc:"Терпець луснув — хочеться все рознести молотком, поки воно горить. Втома й лють перемкнули тебе в режим хаосу." },
+  { id:"bite_laptop", emoji:"⌨️", color:"#FF7A45", img:"images/bite_laptop.jpg",
+    name:"«Зʼїм цю техніку»", desc:"Баги, лаги, дедлайни — і ти готовий(а) вкусити ноутбук. Гаджети тебе сьогодні офіційно перемогли." },
+  { id:"go_flow_sea", emoji:"🌊", color:"#2DA8E0", img:"images/go_flow_sea.jpg",
+    name:"«Пливу за течією»", desc:"Контроль? Не чули. Що буде — те й буде, а ти просто розслабився(лась) і довіряєш потоку." },
+  { id:"goldfish", emoji:"🐠", color:"#FFB23E", img:"images/goldfish.jpg",
+    name:"«Памʼятаю, аякже»", desc:"Памʼять як у золотої рибки, але впевненість — як у профі. Що там треба було? А, неважливо." },
+  { id:"nervous_dog", emoji:"😰", color:"#6B7280", img:"images/nervous_dog.jpg",
+    name:"«Усі системи нервові»", desc:"Тривога — твоє паливо. Ти тримаєшся, але всі внутрішні системи давно на межі." },
+  { id:"crying_kid", emoji:"😭", color:"#4F8DF0", img:"images/crying_kid.jpg",
+    name:"«Все, я плачу»", desc:"Емоції через край і завжди напоготові. Маленький драматичний шторм у людському тілі." },
+  { id:"math_lady", emoji:"🧮", color:"#C026D3", img:"images/math_lady.jpg",
+    name:"«Гарячкові обчислення»", desc:"Мозок рахує все наперед, аж перегрівається. Просте питання — а в голові вже три формули й діаграма." },
+  { id:"nature_caterpillar", emoji:"🐛", color:"#34C759", img:"images/nature_caterpillar.jpg",
+    name:"«Природа прекрасна»", desc:"Бачиш красу в найдрібнішому. Мила, добра, трохи наївна душа, що радіє листочкам і гусеничкам." },
+  { id:"self_care", emoji:"🤍", color:"#F472B6", img:"images/self_care.jpg",
+    name:"«Підтримую себе сам»", desc:"Сам собі найкращий друг і терапевт. Дбаєш про внутрішнього себе ніжно й без поспіху." },
+  { id:"sunset_dog", emoji:"🌅", color:"#E07A3F", img:"images/sunset_dog.jpg",
+    name:"«У роздумах про вічне»", desc:"Незворушний мислитель на заході сонця. Дивишся вдалечінь і відчуваєш, що ти — головний герой свого фільму." },
+  { id:"overthink_shark", emoji:"🦈", color:"#5B5FEF", img:"images/overthink_shark.jpg",
+    name:"«Я це переосмислив»", desc:"Думаєш 24/7 і перемудровуєш усе на світі. Одна фраза — і ти вже прокрутив(ла) її сто разів." },
+  { id:"roll_safe", emoji:"🤙", color:"#FFC93C", img:"images/roll_safe.jpg",
+    name:"«Хитрий розум»", desc:"На кожну ситуацію — свій лайфхак. Самовпевнена логіка, яка майже завжди здається геніальною." },
+  { id:"fruit_glutton", emoji:"🍉", color:"#E63950", img:"images/fruit_glutton.jpg",
+    name:"«Дорвався до фруктів»", desc:"Сезон стартував — і ти накупив(ла) цілу гору фруктів. Наївся(лася) вже від душі, але спинитися не можеш: ще шматочок кавуна, ну і ще один." },
+  { id:"conspiracy", emoji:"🕵️", color:"#8B5CF6", img:"images/conspiracy.jpg",
+    name:"«Все повʼязано!»", desc:"Бачиш звʼязки там, де їх не бачить ніхто. Стіна з ниток, теорії, режим детектива на повну." },
+  { id:"hackerman", emoji:"💻", color:"#22C55E", img:"images/hackerman.jpg",
+    name:"«Я в системі»", desc:"Технічний геній (на словах). Тицяєш кнопки впевнено, ніби зараз зламаєш весь інтернет." },
+  { id:"money_sign", emoji:"💰", color:"#16A34A", img:"images/money_sign.jpg",
+    name:"«Курс на гроші»", desc:"Бачиш ціль — ідеш до неї. Амбіції, фокус і чіткий вектор на результат." },
+  { id:"degree_hamster", emoji:"🐹", color:"#A78BFA", img:"images/degree_hamster.jpg",
+    name:"«Здобудемо цей диплом»", desc:"Втомлений(а), але впертий(а). Тримаєшся на каві й силі волі — і таки дійдеш до мети." },
+  { id:"ironic_leo", emoji:"🥃", color:"#B45309", img:"images/ironic_leo.jpg",
+    name:"«Іронічний Лео»", desc:"Спостерігаєш за абсурдом світу з келихом і легкою усмішкою. Тебе все це радше тішить, ніж дратує." },
+  { id:"thats_me_leo", emoji:"🙌", color:"#F59E0B", img:"images/thats_me_leo.jpg",
+    name:"«О, це ж я!»", desc:"Щире, радісне впізнавання себе у всьому. Ентузіазм через край і палець, спрямований в екран." },
+  { id:"confident_comb", emoji:"💇", color:"#38BDF8", img:"images/confident_comb.jpg",
+    name:"«Все під контролем»", desc:"Робиш геть безглузде з абсолютною впевненістю. Самоіронія — твоя суперсила." },
+  { id:"mischief_glasses", emoji:"😏", color:"#FB7185", img:"images/mischief_glasses.jpg",
+    name:"«Маленький бешкетник»", desc:"Завжди щось замислив(ла). Пустотлива енергія й погляд людини, яка собі на умі." },
+  { id:"confused_paper", emoji:"😵‍💫", color:"#EF4444", img:"images/confused_paper.jpg",
+    name:"«Що це взагалі таке?»", desc:"Нічого не розумієш — і тебе це вже бісить. Мружишся на світ із праведним обуренням." },
+  { id:"skeptical_kid", emoji:"👀", color:"#F97316", img:"images/skeptical_kid.jpg",
+    name:"«Щось не сходиться»", desc:"Скептик до кісток. Дивишся скоса й чекаєш, у чому підступ." },
+  { id:"suspicious_aunt", emoji:"🧐", color:"#DC2626", img:"images/suspicious_aunt.jpg",
+    name:"«Ой, не вірю»", desc:"Осуд і недовіра по-нашому. Один погляд — і людині вже соромно, хоч вона й не знає за що." },
+  { id:"sho", emoji:"❓", color:"#14B8A6", img:"images/sho.jpg",
+    name:"«ШО? ШО-ШО?»", desc:"«Га? Повтори?» Мила нерозуміючка, яка щиро не вловила сенс — але дуже старається." },
+  { id:"spidermen", emoji:"🕸️", color:"#DB2777", img:"images/spidermen.jpg",
+    name:"«Хто винен?»", desc:"Суцільна плутанина, де всі однакові й кожен показує пальцем на іншого. Відповідальність? Не сьогодні." },
+  { id:"insane_cat", emoji:"🚗", color:"#EC4899", img:"images/insane_cat.jpg",
+    name:"«Не питай, куди я їду»", desc:"Стильно зʼїжджаєш з глузду. Куди по життю — невідомо, але їдеш упевнено й з шиком." },
+  { id:"kukukha", emoji:"🚃", color:"#64748B", img:"images/kukukha.jpg",
+    name:"«Кукуха їде»", desc:"Глузд потихеньку покидає вагон, але ти все одно рухаєшся вперед. Хаос, та контрольований." },
+  { id:"marmot", emoji:"📣", color:"#F43F5E", img:"images/marmot.jpg",
+    name:"«ААА!»", desc:"Голосна драматична реакція на будь-що. Емоції назовні, гучність — на максимум." },
+  { id:"calm_fist", emoji:"✊", color:"#1F2937", img:"images/calm_fist.jpg",
+    name:"«Спокій і кулак»", desc:"Ззовні незворушний(а), а проблеми вирішуєш рішуче й по суті. Тиха сила без зайвих слів." },
+  { id:"troll_grass", emoji:"🌱", color:"#65A30D", img:"images/troll_grass.jpg",
+    name:"«Моє улюблене заняття»", desc:"Іронічний тролик, вічно онлайн. Доторкнутися до трави? Хіба щоб одразу поіронізувати з цього." },
+];
+
+/* ============================================================
+   2) ПИТАННЯ — кожна відповідь дає бали різним мемам.
+      Перемагає мем із найбільшою сумою (нічию — випадково).
+   ============================================================ */
+const QUESTIONS = [
+  { q:"У неділю ввечері ти зазвичай почуваєшся…", options:[
+    { emo:"🌊", label:"Спокій — що буде, те й буде", scores:{go_flow_sea:2,sunset_dog:1,goldfish:1} },
+    { emo:"😰", label:"Тривога: завтра ж понеділок", scores:{nervous_dog:2,crying_kid:1,math_lady:1} },
+    { emo:"🔨", label:"Лють: знову той самий гон", scores:{burn_work:2,bite_laptop:2} },
+    { emo:"📈", label:"Будую плани, як підкорити тиждень", scores:{money_sign:2,degree_hamster:2,roll_safe:1} },
+  ]},
+  { q:"Несподівана проблема. Перша реакція?", options:[
+    { emo:"😱", label:"Голосно драматизую: ААА!", scores:{marmot:2,crying_kid:2} },
+    { emo:"🦈", label:"Аналізую з усіх боків (мабуть, забагато)", scores:{overthink_shark:2,math_lady:2} },
+    { emo:"🤨", label:"Шо? Шо-шо? Спершу не доганяю", scores:{sho:2,confused_paper:2,spidermen:2} },
+    { emo:"✊", label:"Спокійно вирішую, без зайвих емоцій", scores:{calm_fist:2,roll_safe:1} },
+  ]},
+  { q:"Друзі кличуть на нічну авантюру. Ти?", options:[
+    { emo:"🚗", label:"Поїхали! Не питай, куди", scores:{insane_cat:2,kukukha:2} },
+    { emo:"😏", label:"Я в ділі — я ж тут по хаосу", scores:{mischief_glasses:2,troll_grass:1} },
+    { emo:"☕", label:"Краще вдома, з чаєм і книжкою", scores:{self_care:2,nature_caterpillar:1} },
+    { emo:"🍉", label:"Поїхали, але тільки якщо там буде смачна їжа", scores:{fruit_glutton:2,go_flow_sea:1} },
+  ]},
+  { q:"Який мемний настрій тобі найближчий?", options:[
+    { emo:"🧠", label:"«Я це вже переосмислив»", scores:{overthink_shark:2,conspiracy:1} },
+    { emo:"🐠", label:"«Памʼятаю, аякже» (насправді ні)", scores:{goldfish:2} },
+    { emo:"💇", label:"«Все під контролем» (ні)", scores:{confident_comb:2,hackerman:2} },
+    { emo:"🌿", label:"«Природа прекрасна»", scores:{nature_caterpillar:2,sunset_dog:1} },
+  ]},
+  { q:"Бачиш чужу дурню в інтернеті. Що робиш?", options:[
+    { emo:"🥃", label:"Іронічно спостерігаю й насолоджуюсь", scores:{ironic_leo:2,mischief_glasses:2} },
+    { emo:"🌱", label:"Лізу в комменти — моє улюблене заняття", scores:{troll_grass:2} },
+    { emo:"😵‍💫", label:"«Що це взагалі таке?!» — не розумію й бісить", scores:{confused_paper:2,suspicious_aunt:2} },
+    { emo:"👀", label:"Підозріло мружусь: щось тут не так", scores:{skeptical_kid:2,suspicious_aunt:1} },
+  ]},
+  { q:"Твоє ставлення до навчання / роботи?", options:[
+    { emo:"🐹", label:"Через силу, але дійду до мети", scores:{degree_hamster:2,money_sign:1} },
+    { emo:"🚃", label:"Кукуха їде, але тримаюсь", scores:{kukukha:2,crying_kid:1} },
+    { emo:"💡", label:"Знаю лайфхак на кожну ситуацію", scores:{roll_safe:2,hackerman:1} },
+    { emo:"🧥", label:"Працюю на чистій тривозі", scores:{nervous_dog:2,math_lady:1} },
+  ]},
+  { q:"Як ти ухвалюєш рішення?", options:[
+    { emo:"🕵️", label:"Малюю схему звʼязків, як детектив", scores:{conspiracy:2,overthink_shark:1} },
+    { emo:"🧮", label:"Рахую все в голові до перегріву", scores:{math_lady:2} },
+    { emo:"🍉", label:"Слухаю шлунок — він підкаже", scores:{fruit_glutton:2,mischief_glasses:1} },
+    { emo:"🕸️", label:"А хто взагалі винен у цьому виборі?", scores:{spidermen:2,sho:2} },
+  ]},
+  { q:"Тебе щиро похвалили. Реакція?", options:[
+    { emo:"🙌", label:"«О, це ж я!» — аж підскочив", scores:{thats_me_leo:2} },
+    { emo:"👀", label:"Скептично: а в чому підступ?", scores:{skeptical_kid:2,suspicious_aunt:2} },
+    { emo:"✊", label:"Спокійно киваю — я й так знав", scores:{calm_fist:2,confident_comb:2} },
+    { emo:"📣", label:"Драматично радію на весь голос", scores:{marmot:2,thats_me_leo:1} },
+  ]},
+  { q:"Обери свою суперсилу.", options:[
+    { emo:"🌅", label:"Незламний спокій у хаосі", scores:{sunset_dog:2,calm_fist:1} },
+    { emo:"⚡", label:"Заряджати все драмою й емоціями", scores:{thats_me_leo:2,marmot:1} },
+    { emo:"🔍", label:"Бачити суть і звʼязки всюди", scores:{conspiracy:2,overthink_shark:1} },
+    { emo:"🐈", label:"Робити з усього легкий хаос", scores:{insane_cat:2,kukukha:1,mischief_glasses:1} },
+  ]},
+  { q:"Твоя стихія — це…", options:[
+    { emo:"💰", label:"Гроші й чіткі цілі", scores:{money_sign:2,roll_safe:2} },
+    { emo:"💻", label:"Технології (я ж типу хакер)", scores:{hackerman:2,confident_comb:1} },
+    { emo:"🦋", label:"Краса, природа, спокій", scores:{nature_caterpillar:2,self_care:1} },
+    { emo:"🥃", label:"Іронія та спостереження", scores:{ironic_leo:2,troll_grass:2} },
+  ]},
+  { q:"Чесно: що ти зараз відчуваєш?", options:[
+    { emo:"🔥", label:"Хочу все рознести", scores:{burn_work:2,bite_laptop:2} },
+    { emo:"😢", label:"Тримаюсь, але всередині плачу", scores:{crying_kid:2,nervous_dog:1} },
+    { emo:"🤍", label:"Дзен. Піклуюсь про себе", scores:{self_care:2,sunset_dog:2} },
+    { emo:"🌊", label:"Та норм, пливу за течією", scores:{go_flow_sea:2,goldfish:2} },
+  ]},
+];
+
+/* ============================================================
+   3) ЛОГІКА
+   ============================================================ */
+const $ = s => document.querySelector(s);
+const memeById = id => MEMES.find(m => m.id === id);
+let current = 0, answers = [], shownWinner = null;
+
+/* Теоретичний розподіл (запасний варіант + рідкісність).
+   Детермінований ГВЧ — стабільні числа, але оновлюються,
+   якщо ти зміниш питання чи бали. */
+function mulberry32(a){return function(){a|=0;a=a+0x6D2B79F5|0;let t=Math.imul(a^a>>>15,1|a);t=t+Math.imul(t^t>>>7,61|t)^t;return ((t^t>>>14)>>>0)/4294967296;};}
+function computeDistribution(){
+  const rng = mulberry32(20240613);
+  const counts = {}; MEMES.forEach(m => counts[m.id] = 0);
+  const N = 80000;
+  for (let i = 0; i < N; i++){
+    const scores = {}; MEMES.forEach(m => scores[m.id] = 0);
+    for (let q = 0; q < QUESTIONS.length; q++){
+      const opts = QUESTIONS[q].options;
+      const opt = opts[Math.floor(rng() * opts.length)];
+      for (const id in opt.scores) scores[id] += opt.scores[id];
+    }
+    let max = -Infinity;
+    for (const id in scores) if (scores[id] > max) max = scores[id];
+    const winners = MEMES.filter(m => scores[m.id] === max);
+    counts[winners[Math.floor(rng() * winners.length)].id]++;
+  }
+  const pct = {}; MEMES.forEach(m => pct[m.id] = counts[m.id] / N * 100);
+  return pct;
+}
+const DIST = computeDistribution();
+
+/* Відсотки беремо з прорахованого (теоретичного) розподілу. */
+function statFor(id){ return { pct: DIST[id] }; }
+
+function showScreen(id){
+  document.querySelectorAll(".screen").forEach(s => s.classList.remove("active"));
+  $("#" + id).classList.add("active");
+  window.scrollTo({ top: 0, behavior: "smooth" });
+}
+
+function renderQuestion(){
+  const Q = QUESTIONS[current];
+  $("#counter").textContent = (current + 1) + " / " + QUESTIONS.length;
+  $("#barFill").style.width = (current / QUESTIONS.length * 100) + "%";
+  $("#questionText").textContent = Q.q;
+  $("#backBtn").hidden = (current === 0);
+  const box = $("#optionsBox"); box.innerHTML = "";
+  Q.options.forEach((opt, i) => {
+    const b = document.createElement("button");
+    b.className = "option";
+    b.innerHTML = '<span class="emo">' + opt.emo + '</span><span>' + opt.label + '</span>';
+    b.addEventListener("click", () => selectOption(i));
+    box.appendChild(b);
+  });
+}
+
+function selectOption(i){
+  answers[current] = i;
+  if (current < QUESTIONS.length - 1){ current++; renderQuestion(); }
+  else { $("#barFill").style.width = "100%"; finish(); }
+}
+function goBack(){ if (current > 0){ current--; renderQuestion(); } }
+
+function finish(){
+  const scores = {}; MEMES.forEach(m => scores[m.id] = 0);
+  answers.forEach((optIndex, q) => {
+    const opt = QUESTIONS[q].options[optIndex];
+    for (const id in opt.scores) scores[id] += opt.scores[id];
+  });
+  let max = -Infinity;
+  for (const id in scores) if (scores[id] > max) max = scores[id];
+  const winners = Object.keys(scores).filter(id => scores[id] === max);
+  const winnerId = winners[Math.floor(Math.random() * winners.length)];
+  renderResult(winnerId);
+  showScreen("screen-result");
+}
+
+function paintPct(id){
+  $("#pctLine").innerHTML = "Цей мем випадає приблизно у <b>" + statFor(id).pct.toFixed(1) + "%</b> випадків";
+}
+
+function renderResult(id){
+  const m = memeById(id);
+  shownWinner = id;
+  const face = $("#resultFace");
+  face.style.background = m.color + "22";
+  if (m.img) face.innerHTML = '<img src="' + m.img + '" alt="" onerror="this.parentNode.textContent=\'' + m.emoji + '\'">';
+  else face.textContent = m.emoji;
+  $("#resultName").textContent = m.name;
+  $("#resultDesc").textContent = m.desc;
+  // Рідкісність — за збалансованим (теоретичним) розподілом, щоб не стрибала.
+  const t = DIST[id];
+  $("#rarityBadge").textContent = t < 2.5 ? "🌟 Рідкісний" : (t < 4 ? "Незвичайний" : "Класика");
+  paintPct(id);
+}
+
+function openStats(){
+  renderStats();
+  showScreen("screen-stats");
+}
+
+function renderStats(){
+  $("#statsHead").textContent = "Як часто випадає кожен мем";
+  $("#statsNote").textContent = "Розраховано на основі багатьох симуляцій випадкових проходжень — показує, наскільки збалансований тест і які меми рідкісні.";
+  const rows = MEMES.map(m => ({ m, pct: statFor(m.id).pct })).sort((a, b) => b.pct - a.pct);
+  const maxPct = Math.max(...rows.map(r => r.pct), 0.01);
+  const box = $("#statsBox"); box.innerHTML = "";
+  rows.forEach(({ m, pct }) => {
+    const row = document.createElement("div");
+    row.className = "stat-row";
+    row.innerHTML =
+      '<div class="stat-label"><span><span class="emo">' + m.emoji + '</span>' + m.name + '</span>' +
+      '<span class="v">' + pct.toFixed(1) + '%</span></div>' +
+      '<div class="track"><span style="background:' + m.color + '"></span></div>';
+    box.appendChild(row);
+    requestAnimationFrame(() => { row.querySelector(".track > span").style.width = (pct / maxPct * 100) + "%"; });
+  });
+}
+
+function shareResult(){
+  const m = memeById(shownWinner);
+  const text = "Я пройшов(ла) тест і я — " + m.name + "! А ти який мем?";
+  const url = location.href;
+  if (navigator.share){ navigator.share({ title: "Який ти мем?", text, url }).catch(() => {}); }
+  else { navigator.clipboard.writeText(text + " " + url).then(() => toast("Скопійовано — можна вставляти!")).catch(() => toast(text)); }
+}
+
+let toastTimer;
+function toast(msg){
+  const t = $("#toast"); t.textContent = msg; t.classList.add("show");
+  clearTimeout(toastTimer); toastTimer = setTimeout(() => t.classList.remove("show"), 2200);
+}
+
+function restart(){ current = 0; answers = []; shownWinner = null; renderQuestion(); showScreen("screen-quiz"); }
+
+$("#startBtn").addEventListener("click", restart);
+$("#againBtn").addEventListener("click", restart);
+$("#restartFromStats").addEventListener("click", restart);
+$("#backBtn").addEventListener("click", goBack);
+$("#shareBtn").addEventListener("click", shareResult);
+$("#statsBtn").addEventListener("click", openStats);
+</script>
+</body>
+</html>
