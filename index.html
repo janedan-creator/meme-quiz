@@ -374,8 +374,26 @@ function renderResult(id){
   shownWinner = id;
   const face = $("#resultFace");
   face.style.background = m.color + "22";
-  if (m.img) face.innerHTML = '<img src="' + m.img + '" alt="" onerror="this.parentNode.textContent=\'' + m.emoji + '\'">';
-  else face.textContent = m.emoji;
+  face.textContent = "";
+  if (m.img){
+    const stem = m.img.replace(/\.[^.]+$/, "");           // напр. "IMG_0361" (без розширення)
+    const tries = [                                        // пробуємо різні розширення/регістр і папку images/
+      stem + ".JPG", stem + ".jpeg", stem + ".jpg", stem + ".png",
+      "images/" + stem + ".JPG", "images/" + stem + ".jpeg", "images/" + stem + ".jpg"
+    ];
+    const img = document.createElement("img");
+    img.alt = "";
+    let i = 0;
+    img.onerror = function(){
+      i++;
+      if (i < tries.length) img.src = tries[i];
+      else face.textContent = m.emoji;                     // не знайшлось ніде - емодзі
+    };
+    img.src = tries[0];
+    face.appendChild(img);
+  } else {
+    face.textContent = m.emoji;
+  }
   $("#resultName").textContent = m.name;
   $("#resultDesc").textContent = m.desc;
   // Рідкісність - за збалансованим (теоретичним) розподілом, щоб не стрибала.
